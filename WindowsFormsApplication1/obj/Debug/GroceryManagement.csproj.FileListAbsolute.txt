@@ -1,0 +1,12 @@
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\GroceryManagement.csprojResolveAssemblyReference.cache
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\GroceryManagement.csproj.GenerateResource.Cache
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+d:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+D:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\View.Frame.resources
+D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
