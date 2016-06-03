@@ -1,0 +1,5 @@
+D:\C#\GroceryManagement\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+D:\C#\GroceryManagement\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+D:\C#\GroceryManagement\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+D:\C#\GroceryManagement\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+D:\C#\GroceryManagement\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb

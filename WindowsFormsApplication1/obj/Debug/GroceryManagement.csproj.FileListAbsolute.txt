@@ -10,3 +10,11 @@ D:\C#\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\View.Frame.res
 D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
 D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
 D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\GroceryManagement.csprojResolveAssemblyReference.cache
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\View.Frame.resources
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\GroceryManagement.csproj.GenerateResource.Cache
+D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\System.Web.Mvc.dll
+D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\System.Web.Mvc.xml
