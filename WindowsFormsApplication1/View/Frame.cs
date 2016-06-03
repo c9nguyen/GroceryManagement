@@ -17,7 +17,7 @@ namespace View
     public partial class Frame : Form
     {
         private const double DEFAULT_HEIGHT_RATIO = 0.7;
-        private const double DEFAULT_WIDTH_RATIO = 0.6;
+        private const double DEFAULT_WIDTH_RATIO = 0.5;
         private const int MINIMUN_COLUMNS_WIDTH = 50;
 
         private InventoryData myInventoryData;
@@ -25,7 +25,7 @@ namespace View
         private ArrayList defaultList;
         private InventoryEditor editor;
         private bool lastColumnResizing = false;
-        private Dictionary<string, InventoryItem> changesMap;
+        private Dictionary<String, InventoryItem> changesMap;
 
         /// <summary>
         /// Constructor.
@@ -38,9 +38,16 @@ namespace View
             //Data
             myInventoryData = new InventoryData();
             defaultList = myInventoryData.loadInventoryData();
-            InventoryList_LoadDefault();
-
-            editor = null;
+            if (defaultList.Count == 0)
+            {
+                MessageBox.Show("Failed to load");
+            }
+            else
+            {
+                InventoryList_LoadDefault();
+                changesMap = new Dictionary<string, InventoryItem>();
+                editor = null;
+            }
         }
 
         /// <summary>
@@ -61,9 +68,9 @@ namespace View
         /// </summary>
         private void splitcontrol_Load()
         {
-            int width = splitContainer1.Width;
-            Console.WriteLine(width);
-            this.splitContainer1.SplitterDistance = (int)(width * 0.8);
+            int width = splitContainer1.Width;   
+            this.splitContainer1.SplitterDistance = (int)(width * 0.7);
+    
         }
 
         /// <summary>
@@ -72,26 +79,70 @@ namespace View
         private void InventoryList_LoadDefault()
         {
             currentList = defaultList;
-
+            int totalWidth = this.splitContainer1.SplitterDistance;
+        
             //Adding columns
-            inventory_listview.Columns.Add("PLU", -2, HorizontalAlignment.Center);
-            inventory_listview.Columns.Add("Name", -2, HorizontalAlignment.Center);
-            inventory_listview.Columns.Add("Supplier ID", -2, HorizontalAlignment.Center);
-            inventory_listview.Columns.Add("Min Sell Rate", -2, HorizontalAlignment.Center);
-            inventory_listview.Columns.Add("Max Sell Rate", -2, HorizontalAlignment.Center);
-            inventory_listview.Columns.Add("Instock", -2, HorizontalAlignment.Center);
-            inventory_listview.Columns.Add("Sell Price", -2, HorizontalAlignment.Center);
+           this.inventory_listview.Columns.Add("PLU", -2, HorizontalAlignment.Center);
+            this.inventory_listview.Columns.Add("Name", -2, HorizontalAlignment.Center);
+            this.inventory_listview.Columns.Add("Supplier ID", -2, HorizontalAlignment.Center);
+            //inventory_listview.Columns.Add("Min Sell Rate", -2, HorizontalAlignment.Center);
+            //inventory_listview.Columns.Add("Max Sell Rate", -2, HorizontalAlignment.Center);
+            this.inventory_listview.Columns.Add("Instock", -2, HorizontalAlignment.Center);
+            this.inventory_listview.Columns.Add("Sell Price", -2, HorizontalAlignment.Center);
 
             //Adding Items
             foreach (InventoryItem item in currentList)
             {
-                string[] stringItems = { item.Plu, item.Name, item.Supplier_id, item.MinSellRate,
-                                        item.MaxSellRate, item.InStock, item.Price };
+                string[] stringItems = { item.Plu, item.Name, item.Supplier_id,
+                                        item.InStock, item.Price };
                 var listviewItem = new ListViewItem(stringItems);
-                inventory_listview.Items.Add(listviewItem);
+                this.inventory_listview.Items.Add(listviewItem);
             }
-   
+          
         }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Activate/Disactivate edit buttons.
+        /// </summary>
+        /// <param name="on"></param>
+        private void setEditBtns()
+        {
+            if (inventory_listview.SelectedItems.Count > 0)
+            {
+
+                //Selected item
+                int selectedIndex = inventory_listview.SelectedItems[0].Index;
+                InventoryItem selectedItem = (InventoryItem)currentList[selectedIndex];
+                string key = selectedItem.Plu + selectedItem.Supplier_id;  //Changes map key
+
+                this.tools_EditBtn.Enabled = true;
+                if (changesMap.ContainsKey(key))
+                {
+                    this.tools_ViewChangesBtn.Enabled = true;
+                }
+                
+            } else
+            {
+                this.tools_EditBtn.Enabled = false;
+                this.tools_ViewChangesBtn.Enabled = false;
+            }
+        }
+
+
+        /// 
+        /// Controller
+        /// Event handlers.
+        /// 
 
         /// <summary>
         /// Automatically resize the columns to fist the list view
@@ -105,7 +156,7 @@ namespace View
             //Prevent calling this statement from excuting while size changing
             if (!lastColumnResizing)
             {
-                lastColumnResizing = true;    
+                lastColumnResizing = true;
                 if (listview != null)
                 {
                     int columnsCount = listview.Columns.Count;
@@ -122,11 +173,6 @@ namespace View
             }
         }
 
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         /// <summary>
         /// Item selecting event handler.
         /// </summary>
@@ -134,18 +180,7 @@ namespace View
         /// <param name="e"></param>
         private void inventory_listview_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (inventory_listview.SelectedItems.Count == 0)
-            {
-                setEditBtns(false);
-            } else if (inventory_listview.SelectedItems.Count == 1)
-            {
-                setEditBtns(true);
-            }         
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
+            setEditBtns();
         }
 
         /// <summary>
@@ -161,22 +196,26 @@ namespace View
             editor = new InventoryEditor(selectedItem);
             editor.ShowDialog(this);
 
-            if (selectedItem.StockChanged)
+            if (editor.StockChanged)
             {
                 int stockIndex = inventory_listview.SelectedItems[0].SubItems.Count - 2;        //Stock columns is at second last
                 inventory_listview.SelectedItems[0].SubItems[stockIndex].Text = selectedItem.InStock;
-                changesMap.Add(selectedItem.Plu + selectedItem.Supplier_id, selectedItem);      //Save the change
+                string key = selectedItem.Plu + selectedItem.Supplier_id;   //Key for changes map
+                if (!changesMap.ContainsKey(key))
+                    changesMap.Add(key, selectedItem);      //Save the change
             }
 
-            if (selectedItem.PriceChanged)
+            if (editor.PriceChanged)
             {
-                foreach (InventoryItem item in currentList)         //Updating price of all same items.
-                {                                                   //Because all items with same PLU
-                    if (item.Plu.Equals(selectedItem.Plu))          //sell same price.
+                foreach (InventoryItem item in currentList)                                 //Updating price of all same items.
+                {                                                                           //Because all items with same PLU
+                    if (item.Plu.Equals(selectedItem.Plu) && item != selectedItem)          //sell same price.
                     {
-                        item.Price = selectedItem.Price;
+                        item.changePrice(selectedItem.Price);
                         item.ChangeDescription += "\nPrice changed from other item";
-                        changesMap.Add(item.Plu + item.Supplier_id, item);  //Save the change
+                        string key = item.Plu + item.Supplier_id;   //Key for changes map
+                        if (!changesMap.ContainsKey(key))
+                            changesMap.Add(key, item);      //Save the change
                     }
                 }
 
@@ -190,19 +229,61 @@ namespace View
             editor.Dispose();
 
             //Deselect items
-            setEditBtns(false);
+            setEditBtns();
             inventory_listview.SelectedItems.Clear();
         }
 
         /// <summary>
-        /// Activate/Disactivate edit buttons.
+        /// View changes handler
         /// </summary>
-        /// <param name="on"></param>
-        private void setEditBtns(bool on)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tools_ViewChangesBtn_Click(object sender, EventArgs e)
         {
-            this.tools_EditBtn.Enabled = on;
-            this.tools_UndoBtn.Enabled = on;
-            this.tools_ViewChangesBtn.Enabled = on;
+            //Selected item
+            int selectedIndex = inventory_listview.SelectedItems[0].Index;
+            InventoryItem selectedItem = (InventoryItem)currentList[selectedIndex];
+
+            StringBuilder sb = new StringBuilder();
+
+            if (selectedItem.PreviousStock != null)
+            {
+                sb.Append("InStock change:\t");
+                sb.Append(selectedItem.PreviousStock + " --> " + selectedItem.InStock + "\n");
+            }
+
+            if (selectedItem.PreviousPrice != null)
+            {
+                sb.Append("Price change:\t");
+                sb.Append(selectedItem.PreviousPrice + " --> " + selectedItem.Price + "\n");
+            }
+
+            sb.Append("\nDescription:\n");
+            sb.Append(selectedItem.ChangeDescription);
+
+            MessageBox.Show(sb.ToString());
+        }
+
+        private void Tools_AddBtn_Click(object sender, EventArgs e)
+        {
+            AddProduct addProduct = new AddProduct(this.myInventoryData);
+            addProduct.ShowDialog(this);
+
+            if (addProduct.NewItem != null)
+            {
+                InventoryItem newItem = addProduct.NewItem;
+
+                changesMap.Add(newItem.Plu + newItem.Supplier_id, newItem);
+
+                this.defaultList.Add(newItem);
+
+                string[] stringItems = { newItem.Plu, newItem.Name, newItem.Supplier_id,
+                                        newItem.InStock, newItem.Price };
+                var listviewItem = new ListViewItem(stringItems);
+                this.inventory_listview.Items.Add(listviewItem);
+
+                addProduct.Dispose();
+            }
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApplication1.Model
 {
-    class InventoryData
+     class InventoryData
     {
-        enum Database { PLU, Name, Supplier_ID, Min_Sell_Rate, Max_Sell_Rate, In_Stock, Price };  
+        enum Database { PLU, Name, Supplier_ID, Supplier_Name, In_Stock, Price };  
 
         private String connectionString;
         private SqlConnection sqlConnection;
@@ -40,9 +40,7 @@ namespace WindowsFormsApplication1.Model
                 while (theReader.Read())
                 {
                     InventoryItem item = new InventoryItem(theReader[Database.PLU.ToString()].ToString(),
-                                                           theReader[Database.Supplier_ID.ToString()].ToString(),
-                                                           theReader[Database.Min_Sell_Rate.ToString()].ToString(),
-                                                           theReader[Database.Min_Sell_Rate.ToString()].ToString(),
+                                                           theReader[Database.Supplier_ID.ToString()].ToString(),                   
                                                            theReader[Database.In_Stock.ToString()].ToString(),
                                                            theReader[Database.Name.ToString()].ToString(),
                                                            theReader[Database.Price.ToString()].ToString());
@@ -60,9 +58,59 @@ namespace WindowsFormsApplication1.Model
             return itemList;
         }
 
-        public void updateInStock(InventoryItem newItem)
+        public List<SupplierItem> getSupplierList(string plu)
         {
+            List<SupplierItem> itemList = new List<SupplierItem>();
+            try
+            {
+                sqlConnection.Open();
+                SqlCommand theCommand = new SqlCommand("SELECT DISTINCT Supplier.* " +
+                                                        "FROM Supplier_Product, Supplier " +
+                                                        "WHERE Supplier_Product.PLU = " + plu +
+                                                        "AND Supplier_Product.Supplier_ID = Supplier.Supplier_ID", sqlConnection);
+                SqlDataReader theReader = theCommand.ExecuteReader();
 
+                while (theReader.Read())
+                {
+                    SupplierItem item = new SupplierItem(theReader[Database.Supplier_ID.ToString()].ToString(),
+                                                           theReader[Database.Supplier_Name.ToString()].ToString());
+                    itemList.Add(item);
+                }
+                sqlConnection.Close();
+
+            }
+            catch (Exception e)
+            {
+                sqlConnection.Close();
+                Console.WriteLine(e.ToString());
+            }
+
+            return itemList;
+        }
+
+        public string getProductName(string plu)
+        {
+            string product = "";
+
+            try
+            {
+                sqlConnection.Open();
+                SqlCommand theCommand = new SqlCommand("SELECT DISTINCT Name " +
+                                                        "FROM Product  " +
+                                                        "WHERE Product.PLU = " + plu, sqlConnection);
+                SqlDataReader theReader = theCommand.ExecuteReader();
+                theReader.Read();
+                product = theReader[Database.Name.ToString()].ToString();     
+                sqlConnection.Close();
+
+            }
+            catch (Exception e)
+            {
+                sqlConnection.Close();
+                Console.WriteLine(e.ToString());
+            }
+
+            return product;
         }
     }
 }

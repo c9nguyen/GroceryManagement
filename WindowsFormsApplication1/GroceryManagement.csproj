@@ -47,8 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Dictionary.cs" />
     <Compile Include="Model\InventoryItem.cs" />
     <Compile Include="Model\InventoryData.cs" />
+    <Compile Include="Model\SupplierItem.cs" />
+    <Compile Include="View\AddProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AddProduct.Designer.cs">
+      <DependentUpon>AddProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Frame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +71,9 @@
     <Compile Include="View\InventoryEditor.Designer.cs">
       <DependentUpon>InventoryEditor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\AddProduct.resx">
+      <DependentUpon>AddProduct.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Frame.resx">
       <DependentUpon>Frame.cs</DependentUpon>
     </EmbeddedResource>

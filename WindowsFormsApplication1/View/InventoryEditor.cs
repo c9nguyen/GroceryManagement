@@ -11,11 +11,13 @@ using WindowsFormsApplication1.Model;
 
 namespace WindowsFormsApplication1.View
 {
-    public partial class InventoryEditor : Form
+     partial class InventoryEditor : Form
     {
         private const double DEFAULT_HEIGHT_RATIO = 0.5;
         private const double DEFAULT_WIDTH_RATIO = 0.25;
         private InventoryItem inventoryItem;
+        private bool stockChanged;
+        private bool priceChanged;
 
         public InventoryEditor(InventoryItem theItem)
         {
@@ -72,8 +74,8 @@ namespace WindowsFormsApplication1.View
                 {
                     if (int.Parse(inventoryItem.InStock) != n)  //If new value is different from old one
                     {
-                        this.inventoryItem.InStock = newStock_Box.Text;
-                        this.inventoryItem.StockChanged = true;
+                        this.inventoryItem.changeStock(newStock_Box.Text);
+                        this.StockChanged = true;
                     }
                 }
                 else        //Not closing if input is invalid, 
@@ -93,25 +95,52 @@ namespace WindowsFormsApplication1.View
                 {
                     if (double.Parse(inventoryItem.Price) != n)  //If new value is different from old one
                     {
-                        this.inventoryItem.Price = newPrice_Box.Text;
-                        this.inventoryItem.PriceChanged = true;
+                        this.inventoryItem.changePrice(newPrice_Box.Text);
+                        this.PriceChanged = true;
                     }
                 }
                 else          //Not closing if input is invalid, 
                 {
                     MessageBox.Show("Invalid input for new Price!");
-                    this.inventoryItem.StockChanged = false;
+                    this.StockChanged = false;
                     return;
                 }
             }
             this.inventoryItem.ChangeDescription = description_Box.Text;
-            this.Close();
+            this.Hide();
 
         }
 
         private void cancel_Btn_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+        public bool StockChanged
+        {
+            get
+            {
+                return stockChanged;
+            }
+
+            set
+            {
+                stockChanged = value;
+            }
+        }
+
+        public bool PriceChanged
+        {
+            get
+            {
+                return priceChanged;
+            }
+
+            set
+            {
+                priceChanged = value;
+            }
         }
     }
 }

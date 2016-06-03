@@ -10,28 +10,35 @@ namespace WindowsFormsApplication1.Model
     {
         private string plu;
         private string supplier_id;
-        private string minSellRate;
-        private string maxSellRate;
         private string inStock;
         private string name;
         private string price;
-        private bool stockChanged;
-        private bool priceChanged;
         private string changeDescription;
+        private string previousStock;
+        private string previousPrice;
 
-        public InventoryItem(string plu, string supplier_id, string minSellRate, string maxSellRate,
-                             string inStock, string name, string price)
+        public InventoryItem(string plu, string supplier_id, string inStock, string name, string price)
         {
             this.Plu = plu;
             this.Supplier_id = supplier_id;
-            this.MinSellRate = minSellRate;
-            this.MaxSellRate = maxSellRate;
             this.InStock = inStock;
             this.Name = name;
             this.Price = price;
-            this.StockChanged = false;
-            this.PriceChanged = false;
             ChangeDescription = "";
+            PreviousStock = null;
+            PreviousPrice = null;
+        }
+
+        public void changeStock(string newStock)
+        {
+            this.PreviousStock = this.InStock;
+            this.InStock = newStock;
+        }
+
+        public void changePrice(string newPrice)
+        {
+            this.PreviousPrice = this.Price;
+            this.Price = newPrice;
         }
 
 
@@ -45,32 +52,6 @@ namespace WindowsFormsApplication1.Model
             set
             {
                 supplier_id = value;
-            }
-        }
-
-        public string MinSellRate
-        {
-            get
-            {
-                return minSellRate;
-            }
-
-            set
-            {
-                minSellRate = value;
-            }
-        }
-
-        public string MaxSellRate
-        {
-            get
-            {
-                return maxSellRate;
-            }
-
-            set
-            {
-                maxSellRate = value;
             }
         }
 
@@ -126,32 +107,6 @@ namespace WindowsFormsApplication1.Model
             }
         }
 
-        public bool StockChanged
-        {
-            get
-            {
-                return stockChanged;
-            }
-
-            set
-            {
-                stockChanged = value;
-            }
-        }
-
-        public bool PriceChanged
-        {
-            get
-            {
-                return priceChanged;
-            }
-
-            set
-            {
-                priceChanged = value;
-            }
-        }
-
         public string ChangeDescription
         {
             get
@@ -162,6 +117,32 @@ namespace WindowsFormsApplication1.Model
             set
             {
                 changeDescription = value;
+            }
+        }
+
+        public string PreviousStock
+        {
+            get
+            {
+                return previousStock;
+            }
+
+            set
+            {
+                previousStock = value;
+            }
+        }
+
+        public string PreviousPrice
+        {
+            get
+            {
+                return previousPrice;
+            }
+
+            set
+            {
+                previousPrice = value;
             }
         }
     }
