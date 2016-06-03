@@ -4,6 +4,7 @@ namespace View
 {
     partial class Frame
     {
+        
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -121,10 +122,10 @@ namespace View
             // 
             // view_FilterBtn
             // 
-            this.view_FilterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.view_FilterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.view_FilterBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.view_FilterBtn.Location = new System.Drawing.Point(34, 295);
+            this.view_FilterBtn.Location = new System.Drawing.Point(34, 414);
             this.view_FilterBtn.Name = "view_FilterBtn";
             this.view_FilterBtn.Size = new System.Drawing.Size(165, 36);
             this.view_FilterBtn.TabIndex = 10;
@@ -133,11 +134,11 @@ namespace View
             // 
             // views_SupplierCheck
             // 
-            this.views_SupplierCheck.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.views_SupplierCheck.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.views_SupplierCheck.Appearance = System.Windows.Forms.Appearance.Button;
             this.views_SupplierCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.views_SupplierCheck.Location = new System.Drawing.Point(34, 411);
+            this.views_SupplierCheck.Location = new System.Drawing.Point(34, 530);
             this.views_SupplierCheck.Name = "views_SupplierCheck";
             this.views_SupplierCheck.Size = new System.Drawing.Size(165, 35);
             this.views_SupplierCheck.TabIndex = 9;
@@ -147,10 +148,10 @@ namespace View
             // 
             // views_ExtractBtn
             // 
-            this.views_ExtractBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.views_ExtractBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.views_ExtractBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.views_ExtractBtn.Location = new System.Drawing.Point(34, 353);
+            this.views_ExtractBtn.Location = new System.Drawing.Point(34, 472);
             this.views_ExtractBtn.Name = "views_ExtractBtn";
             this.views_ExtractBtn.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.views_ExtractBtn.Size = new System.Drawing.Size(165, 36);
@@ -160,8 +161,9 @@ namespace View
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 267);
+            this.label2.Location = new System.Drawing.Point(5, 386);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 25);
             this.label2.TabIndex = 5;
@@ -223,7 +225,7 @@ namespace View
             this.tabPage_Order.Location = new System.Drawing.Point(4, 34);
             this.tabPage_Order.Name = "tabPage_Order";
             this.tabPage_Order.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Order.Size = new System.Drawing.Size(826, 587);
+            this.tabPage_Order.Size = new System.Drawing.Size(1009, 582);
             this.tabPage_Order.TabIndex = 1;
             this.tabPage_Order.Text = "Order";
             this.tabPage_Order.UseVisualStyleBackColor = true;
@@ -233,7 +235,7 @@ namespace View
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(826, 587);
+            this.tabPage1.Size = new System.Drawing.Size(1009, 582);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Report";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -244,7 +246,7 @@ namespace View
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1017, 620);
             this.Controls.Add(this.tabControl_Inventory);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Frame";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

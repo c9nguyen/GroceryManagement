@@ -16,9 +16,10 @@ namespace View
 {
     public partial class Frame : Form
     {
-        private const double DEFAULT_HEIGHT_RATIO = 0.7;
-        private const double DEFAULT_WIDTH_RATIO = 0.5;
-        private const int MINIMUN_COLUMNS_WIDTH = 50;
+        public const double DEFAULT_HEIGHT_RATIO = 0.7;
+        public const double DEFAULT_WIDTH_RATIO = 0.6;
+        public const int MINIMUN_COLUMNS_WIDTH = 50;
+        private int DEFAULT_FONT_SIZE = (Screen.PrimaryScreen.WorkingArea.Width / 100);
 
         private InventoryData myInventoryData;
         private ArrayList currentList;
