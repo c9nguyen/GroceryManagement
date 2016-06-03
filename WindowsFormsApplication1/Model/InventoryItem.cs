@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApplication1.Model
 {
-    class InventoryItem
+    public class InventoryItem
     {
         private string plu;
         private string supplier_id;
@@ -15,6 +15,9 @@ namespace WindowsFormsApplication1.Model
         private string inStock;
         private string name;
         private string price;
+        private bool stockChanged;
+        private bool priceChanged;
+        private string changeDescription;
 
         public InventoryItem(string plu, string supplier_id, string minSellRate, string maxSellRate,
                              string inStock, string name, string price)
@@ -26,6 +29,9 @@ namespace WindowsFormsApplication1.Model
             this.InStock = inStock;
             this.Name = name;
             this.Price = price;
+            this.StockChanged = false;
+            this.PriceChanged = false;
+            ChangeDescription = "";
         }
 
 
@@ -117,6 +123,45 @@ namespace WindowsFormsApplication1.Model
             set
             {
                 plu = value;
+            }
+        }
+
+        public bool StockChanged
+        {
+            get
+            {
+                return stockChanged;
+            }
+
+            set
+            {
+                stockChanged = value;
+            }
+        }
+
+        public bool PriceChanged
+        {
+            get
+            {
+                return priceChanged;
+            }
+
+            set
+            {
+                priceChanged = value;
+            }
+        }
+
+        public string ChangeDescription
+        {
+            get
+            {
+                return changeDescription;
+            }
+
+            set
+            {
+                changeDescription = value;
             }
         }
     }

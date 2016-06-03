@@ -59,5 +59,10 @@ namespace WindowsFormsApplication1.Model
 
             return itemList;
         }
+
+        public void updateInStock(InventoryItem newItem)
+        {
+
+        }
     }
 }

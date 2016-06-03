@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1.Model;
+using WindowsFormsApplication1.View;
 
 namespace View
 {
@@ -17,7 +18,8 @@ namespace View
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Frame());
+                     Application.Run(new Frame());
+            //Application.Run(new InventoryEditor());
         }
     }
 }

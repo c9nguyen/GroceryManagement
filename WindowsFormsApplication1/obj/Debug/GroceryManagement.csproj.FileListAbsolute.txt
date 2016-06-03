@@ -18,3 +18,4 @@ D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplicati
 D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
 D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\System.Web.Mvc.dll
 D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\System.Web.Mvc.xml
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.View.InventoryEditor.resources

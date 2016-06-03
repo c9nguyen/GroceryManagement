@@ -218,8 +218,9 @@ namespace View
             this.tools_EditBtn.Name = "tools_EditBtn";
             this.tools_EditBtn.Size = new System.Drawing.Size(212, 36);
             this.tools_EditBtn.TabIndex = 0;
-            this.tools_EditBtn.Text = "Edit Stock";
+            this.tools_EditBtn.Text = "Edit";
             this.tools_EditBtn.UseVisualStyleBackColor = true;
+            this.tools_EditBtn.Click += new System.EventHandler(this.tools_EditBtn_Click);
             // 
             // tabPage_Order
             // 
