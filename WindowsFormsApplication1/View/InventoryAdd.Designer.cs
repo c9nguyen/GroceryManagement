@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApplication1.View
 {
-    partial class AddProduct
+    partial class InventoryAdd
     {
         /// <summary>
         /// Required designer variable.
@@ -74,6 +74,7 @@
             this.cancel_Btn.TabIndex = 14;
             this.cancel_Btn.Text = "Cancel";
             this.cancel_Btn.UseVisualStyleBackColor = true;
+            this.cancel_Btn.Click += new System.EventHandler(this.cancel_Btn_Click);
             // 
             // apply_Btn
             // 
@@ -197,13 +198,13 @@
             this.plu_Lbl.TabIndex = 0;
             this.plu_Lbl.Text = "PLU";
             // 
-            // AddProduct
+            // InventoryAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(508, 553);
             this.Controls.Add(this.addPanel);
-            this.Name = "AddProduct";
+            this.Name = "InventoryAdd";
             this.Text = "AddProduct";
             this.Load += new System.EventHandler(this.AddProduct_Load);
             this.addPanel.ResumeLayout(false);

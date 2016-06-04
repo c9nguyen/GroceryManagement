@@ -20,10 +20,11 @@ namespace View
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-                       Application.Run(new Frame());
+                              Application.Run(new Frame());
 
             //Application.Run(new InventoryEditor());
             //Application.Run(new AddProduct());
+            //Application.Run(new InventoryFilter());
         }
     }
 }

@@ -16,6 +16,7 @@ namespace WindowsFormsApplication1.Model
         private string changeDescription;
         private string previousStock;
         private string previousPrice;
+        private bool newItem;
 
         public InventoryItem(string plu, string supplier_id, string inStock, string name, string price)
         {
@@ -27,6 +28,7 @@ namespace WindowsFormsApplication1.Model
             ChangeDescription = "";
             PreviousStock = null;
             PreviousPrice = null;
+            NewItem = false;
         }
 
         public void changeStock(string newStock)
@@ -143,6 +145,19 @@ namespace WindowsFormsApplication1.Model
             set
             {
                 previousPrice = value;
+            }
+        }
+
+        public bool NewItem
+        {
+            get
+            {
+                return newItem;
+            }
+
+            set
+            {
+                newItem = value;
             }
         }
     }

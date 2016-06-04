@@ -12,15 +12,15 @@ using WindowsFormsApplication1.Model;
 
 namespace WindowsFormsApplication1.View
 {
-     partial class AddProduct : Form
+     partial class InventoryAdd : Form
     {
         private const double DEFAULT_HEIGHT_RATIO = 0.6;
         private const double DEFAULT_WIDTH_RATIO = 0.25;
-        private InventoryData inventoryData;
+        private DataManager inventoryData;
         private List<SupplierItem> supplierList;
         private InventoryItem newItem;
 
-        public AddProduct(InventoryData inventoryData)
+        public InventoryAdd(DataManager inventoryData)
         {
             InitializeComponent();
             this.inventoryData = inventoryData;
@@ -58,6 +58,11 @@ namespace WindowsFormsApplication1.View
             }
         }
 
+        /// <summary>
+        /// Add item to the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void apply_Btn_Click(object sender, EventArgs e)
         {
             if (this.supplier_ComboBox.SelectedIndex >= 0)
@@ -65,7 +70,8 @@ namespace WindowsFormsApplication1.View
                 int n;
                 if (int.TryParse(instock_TextBox.Text, out n))      //Check instock input valid
                 {
-                    if (int.TryParse(price_TextBox.Text, out n))    //Check price input valid 
+                    double d;
+                    if (double.TryParse(price_TextBox.Text, out d))    //Check price input valid 
                     {
                         string plu = plu_TextBox.Text;
                         string supplier = supplierList[supplier_ComboBox.SelectedIndex].Id;
@@ -74,6 +80,12 @@ namespace WindowsFormsApplication1.View
                         string name = this.inventoryData.getProductName(plu_TextBox.Text);
 
                         NewItem = new InventoryItem(plu, supplier, inStock, name, price);
+
+                        //New item properties
+                        NewItem.PreviousStock = "0";
+                        NewItem.PreviousPrice = "0";
+                        NewItem.ChangeDescription = description_TextBox.Text;
+                        NewItem.NewItem = true;
 
                         this.Hide();
                     }
@@ -101,6 +113,11 @@ namespace WindowsFormsApplication1.View
             {
                 newItem = value;
             }
+        }
+
+        private void cancel_Btn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 

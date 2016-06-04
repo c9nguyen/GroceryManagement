@@ -21,12 +21,16 @@ namespace View
         public const int MINIMUN_COLUMNS_WIDTH = 50;
         private int DEFAULT_FONT_SIZE = (Screen.PrimaryScreen.WorkingArea.Width / 100);
 
-        private InventoryData myInventoryData;
+        private DataManager dataManager;
         private ArrayList currentList;
         private ArrayList defaultList;
+        private ArrayList allOrderList;
+        private ArrayList currentOrderList;
         private InventoryEditor editor;
         private bool lastColumnResizing = false;
         private Dictionary<String, InventoryItem> changesMap;
+        private InventoryFilter invetoryFilter;
+        private int currentOrder;
 
         /// <summary>
         /// Constructor.
@@ -35,19 +39,37 @@ namespace View
         {
             InitializeComponent();
             splitcontrol_Load();
+            fontLoad();
 
-            //Data
-            myInventoryData = new InventoryData();
-            defaultList = myInventoryData.loadInventoryData();
-            if (defaultList.Count == 0)
+            //Inventory tab
+            dataManager = new DataManager();
+            invetoryFilter = new InventoryFilter();
+            defaultList = dataManager.loadInventoryData();
+            if (defaultList == null)
             {
-                MessageBox.Show("Failed to load");
+                MessageBox.Show("Failed to load Inventory");
+                this.Close();
             }
             else
             {
                 InventoryList_LoadDefault();
                 changesMap = new Dictionary<string, InventoryItem>();
                 editor = null;
+            }
+
+            //Order Tab
+            allOrderList = dataManager.loadOrderData();
+            currentOrderList = new ArrayList();
+            currentOrder = 0;
+            if (allOrderList == null)
+            {
+                MessageBox.Show("Failed to load order");
+                this.Close();
+            }
+            else
+            {
+                AllOrderList_LoadDefault();
+                OrderList_LoadDefault();
             }
         }
 
@@ -69,9 +91,26 @@ namespace View
         /// </summary>
         private void splitcontrol_Load()
         {
-            int width = splitContainer1.Width;   
+            int width = splitContainer1.Width;
             this.splitContainer1.SplitterDistance = (int)(width * 0.7);
-    
+
+        }
+
+
+        /// <summary>
+        /// Load font size.
+        /// </summary>
+        private void fontLoad()
+        {
+            int smallSize = DEFAULT_FONT_SIZE - 7;
+            this.view_FilterBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", smallSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exc_ProcessBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", smallSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tools_ViewChangesBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", smallSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tools_EditBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", smallSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Tools_AddBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", smallSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+            int largeSize = DEFAULT_FONT_SIZE - 5;
+            this.tabControl_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", largeSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         }
 
         /// <summary>
@@ -80,16 +119,24 @@ namespace View
         private void InventoryList_LoadDefault()
         {
             currentList = defaultList;
-            int totalWidth = this.splitContainer1.SplitterDistance;
-        
+
             //Adding columns
-           this.inventory_listview.Columns.Add("PLU", -2, HorizontalAlignment.Center);
+            this.inventory_listview.Columns.Add("PLU", -2, HorizontalAlignment.Center);
             this.inventory_listview.Columns.Add("Name", -2, HorizontalAlignment.Center);
             this.inventory_listview.Columns.Add("Supplier ID", -2, HorizontalAlignment.Center);
-            //inventory_listview.Columns.Add("Min Sell Rate", -2, HorizontalAlignment.Center);
-            //inventory_listview.Columns.Add("Max Sell Rate", -2, HorizontalAlignment.Center);
             this.inventory_listview.Columns.Add("Instock", -2, HorizontalAlignment.Center);
             this.inventory_listview.Columns.Add("Sell Price", -2, HorizontalAlignment.Center);
+
+            filledInventoryListView();
+        }
+
+
+        /// <summary>
+        /// Get all items from currentList to fill in listview.
+        /// </summary>
+        private void filledInventoryListView()
+        {
+            inventory_listview.Items.Clear();
 
             //Adding Items
             foreach (InventoryItem item in currentList)
@@ -99,18 +146,75 @@ namespace View
                 var listviewItem = new ListViewItem(stringItems);
                 this.inventory_listview.Items.Add(listviewItem);
             }
-          
         }
 
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        /// <summary>
+        /// Load data from InventoryData and display on listview
+        /// </summary>
+        private void OrderList_LoadDefault()
         {
+            currentList = defaultList;
 
+            //Adding columns
+            this.order_currentListview.Columns.Add("PLU", -2, HorizontalAlignment.Center);
+            this.order_currentListview.Columns.Add("Name", -2, HorizontalAlignment.Center);
+            this.order_currentListview.Columns.Add("Supplier Name", -2, HorizontalAlignment.Center);
+            this.order_currentListview.Columns.Add("Quantity", -2, HorizontalAlignment.Center);
+
+            //          filledOrderListView();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Get all items from currentList to fill in listview.
+        /// </summary>
+        private void filledOrderListView()
         {
+            order_All_listview.Items.Clear();
 
+            //Adding Items
+            foreach (OrderItem item in allOrderList)
+            {
+                string[] stringItems = { item.Order_PLU, item.Order_Date, item.Order_Name,
+                                        item.Order_SupplierName, item.Order_Quantity };
+                var listviewItem = new ListViewItem(stringItems);
+                this.order_All_listview.Items.Add(listviewItem);
+            }
         }
+
+        /// <summary>
+        /// Load data from InventoryData and display on listview
+        /// </summary>
+        private void AllOrderList_LoadDefault()
+        {
+            currentList = defaultList;
+
+            //Adding columns
+            this.order_All_listview.Columns.Add("Order Number", -2, HorizontalAlignment.Center);
+            this.order_All_listview.Columns.Add("Name", -2, HorizontalAlignment.Center);
+            this.order_All_listview.Columns.Add("Supplier Name", -2, HorizontalAlignment.Center);
+            this.order_All_listview.Columns.Add("Quantity", -2, HorizontalAlignment.Center);
+            this.order_All_listview.Columns.Add("Date", -2, HorizontalAlignment.Center);
+
+            filledAllOrderListView();
+        }
+
+        /// <summary>
+        /// Get all items from currentList to fill in listview.
+        /// </summary>
+        private void filledAllOrderListView()
+        {
+            order_All_listview.Items.Clear();
+
+            //Adding Items
+            foreach (OrderItem item in allOrderList)
+            {
+                string[] stringItems = { item.Order_Number, item.Order_Name,
+                                        item.Order_SupplierName, item.Order_Quantity , item.Order_Date};
+                var listviewItem = new ListViewItem(stringItems);
+                this.order_All_listview.Items.Add(listviewItem);
+            }
+        }
+
 
         /// <summary>
         /// Activate/Disactivate edit buttons.
@@ -131,8 +235,9 @@ namespace View
                 {
                     this.tools_ViewChangesBtn.Enabled = true;
                 }
-                
-            } else
+
+            }
+            else
             {
                 this.tools_EditBtn.Enabled = false;
                 this.tools_ViewChangesBtn.Enabled = false;
@@ -208,22 +313,19 @@ namespace View
 
             if (editor.PriceChanged)
             {
-                foreach (InventoryItem item in currentList)                                 //Updating price of all same items.
-                {                                                                           //Because all items with same PLU
-                    if (item.Plu.Equals(selectedItem.Plu) && item != selectedItem)          //sell same price.
+                int priceIndex = inventory_listview.SelectedItems[0].SubItems.Count - 1;    //Price columns is last.
+                for (int i = 0; i < currentList.Count; i++)                                 //Updating price of all same items.
+                {
+                    InventoryItem item = (InventoryItem)currentList[i];                     //Because all items with same PLU
+                    if (item.Plu.Equals(selectedItem.Plu))                                   //sell same price.
                     {
                         item.changePrice(selectedItem.Price);
                         item.ChangeDescription += "\nPrice changed from other item";
+                        inventory_listview.Items[i].SubItems[priceIndex].Text = item.Price;                  //Update on the list
                         string key = item.Plu + item.Supplier_id;   //Key for changes map
                         if (!changesMap.ContainsKey(key))
                             changesMap.Add(key, item);      //Save the change
                     }
-                }
-
-                int priceIndex = inventory_listview.SelectedItems[0].SubItems.Count - 1;        //Price columns is last.
-                foreach (ListViewItem item in inventory_listview.Items)
-                {
-                    item.SubItems[priceIndex].Text = selectedItem.Price;
                 }
             }
 
@@ -265,9 +367,14 @@ namespace View
             MessageBox.Show(sb.ToString());
         }
 
+        /// <summary>
+        /// Button for adding new product to stock.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tools_AddBtn_Click(object sender, EventArgs e)
         {
-            AddProduct addProduct = new AddProduct(this.myInventoryData);
+            InventoryAdd addProduct = new InventoryAdd(this.dataManager);
             addProduct.ShowDialog(this);
 
             if (addProduct.NewItem != null)
@@ -282,9 +389,139 @@ namespace View
                                         newItem.InStock, newItem.Price };
                 var listviewItem = new ListViewItem(stringItems);
                 this.inventory_listview.Items.Add(listviewItem);
+            }
 
-                addProduct.Dispose();
+            addProduct.Dispose();
+        }
+
+        /// <summary>
+        /// Filter btn handler
+        /// Send all items to the Filter Form to filter items
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void view_FilterBtn_Click(object sender, EventArgs e)
+        {
+            invetoryFilter.filter(defaultList);
+            invetoryFilter.ShowDialog(this);
+            if (invetoryFilter.NewList.Count > 0)
+            {
+                this.currentList = invetoryFilter.NewList;
+                filledInventoryListView();
+            }
+            invetoryFilter.Hide();
+        }
+
+        /// <summary>
+        /// Process buttons in inventory to add changes to database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void processBtn_Click(object sender, EventArgs e)
+        {
+            ProcessDialog dialog = new ProcessDialog("Process all the changes?");
+            dialog.ShowDialog(this);
+            if (dialog.Result)
+            {
+                dataManager.updateDatabase(changesMap.Values.ToList());
+                invetoryFilter = new InventoryFilter();
+                defaultList = dataManager.loadInventoryData();
+                changesMap = new Dictionary<string, InventoryItem>();
+            }
+            dialog.Close();
+        }
+
+        /// <summary>
+        /// Cancel button in inventory to cancel changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exc_CancelBtn_Click(object sender, EventArgs e)
+        {
+            ProcessDialog dialog = new ProcessDialog("Cancel all the changes?");
+            dialog.ShowDialog(this);
+            if (dialog.Result)
+            {
+                invetoryFilter = new InventoryFilter();
+                defaultList = dataManager.loadInventoryData();
+                currentList = defaultList;
+                changesMap = new Dictionary<string, InventoryItem>();
+                filledInventoryListView();
+            }
+            dialog.Close();
+        }
+
+        /// <summary>
+        /// Add order to the list and database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void order_AddBtn_Click(object sender, EventArgs e)
+        {
+            if (this.order_Supplier.SelectedIndex >= 0)
+            {
+                int n;
+                if (int.TryParse(order_quantity.Text, out n))      //Check instock input valid
+                {
+
+                    string plu = order_PLUTextBox.Text;
+                    string supplier = order_Supplier.SelectedItem.ToString();
+                    string quantity = order_quantity.Text;
+                    string name = this.dataManager.getProductName(plu);
+
+                    OrderItem newItem = new OrderItem(plu, null, null, quantity, supplier, name);
+
+                    currentOrderList.Add(newItem);
+
+                    string[] stringItems = { newItem.Order_PLU, newItem.Order_Name,
+                                             newItem.Order_SupplierName, newItem.Order_Quantity };
+                    var listviewItem = new ListViewItem(stringItems);
+                    this.order_currentListview.Items.Add(listviewItem);
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Instock input");
+                }
             }
         }
+
+        /// <summary>
+        /// PLU text box event handler
+        /// Searching for the supplier name base on input PLU
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void order_PLUTextBox_TextChanged(object sender, EventArgs e)
+        {
+            string plu = order_PLUTextBox.Text;
+            this.order_Supplier.Items.Clear();
+            List<SupplierItem> supplierList = dataManager.getSupplierList(plu);
+            if (supplierList.Count > 0)
+            {
+                foreach (SupplierItem item in supplierList)
+                {
+                    this.order_Supplier.Items.Add(item.Name);
+                }
+
+            }
+            else
+            {
+                order_Supplier.Items.Add("Non valid PLU");
+            }
+        }
+
+        /// <summary>
+        /// Insert all new changes to database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void order_NextBtn_Click(object sender, EventArgs e)
+        {
+            foreach (OrderItem item in currentOrderList)
+            {
+
+            }
+        }
+
     }
 }

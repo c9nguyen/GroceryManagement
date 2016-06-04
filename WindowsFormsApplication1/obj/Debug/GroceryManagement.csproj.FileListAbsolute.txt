@@ -19,7 +19,6 @@ D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplicati
 D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\System.Web.Mvc.dll
 D:\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\System.Web.Mvc.xml
 D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.View.InventoryEditor.resources
-D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.View.AddProduct.resources
 C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
 C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
 C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
@@ -31,3 +30,6 @@ C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFo
 C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\GroceryManagement.csproj.GenerateResource.Cache
 C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
 C:\Users\cqngu\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.View.InventoryAdd.resources
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.View.InventoryFilter.resources
+D:\C#\GroceryManagement\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.View.ProcessDialog.resources
