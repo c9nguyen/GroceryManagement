@@ -24,13 +24,13 @@ namespace View
         private DataManager dataManager;
         private ArrayList currentList;
         private ArrayList defaultList;
-        private ArrayList allOrderList;
-        private ArrayList currentOrderList;
+        private ArrayList allOrderList;   
         private InventoryEditor editor;
         private bool lastColumnResizing = false;
         private Dictionary<String, InventoryItem> changesMap;
         private InventoryFilter invetoryFilter;
-        private int currentOrder;
+        private List<OrderItem> currentOrderList;
+        private List<SupplierItem> supplierList;
 
         /// <summary>
         /// Constructor.
@@ -40,6 +40,9 @@ namespace View
             InitializeComponent();
             splitcontrol_Load();
             fontLoad();
+
+
+            /// Loading database
 
             //Inventory tab
             dataManager = new DataManager();
@@ -59,8 +62,8 @@ namespace View
 
             //Order Tab
             allOrderList = dataManager.loadOrderData();
-            currentOrderList = new ArrayList();
-            currentOrder = 0;
+            currentOrderList = new List<OrderItem>();
+
             if (allOrderList == null)
             {
                 MessageBox.Show("Failed to load order");
@@ -204,6 +207,8 @@ namespace View
         private void filledAllOrderListView()
         {
             order_All_listview.Items.Clear();
+
+            allOrderList = this.dataManager.loadOrderData();
 
             //Adding Items
             foreach (OrderItem item in allOrderList)
@@ -464,12 +469,13 @@ namespace View
                 if (int.TryParse(order_quantity.Text, out n))      //Check instock input valid
                 {
 
-                    string plu = order_PLUTextBox.Text;
-                    string supplier = order_Supplier.SelectedItem.ToString();
-                    string quantity = order_quantity.Text;
+                    string plu = this.order_PLUTextBox.Text;
+                    string supplier = this.order_Supplier.SelectedItem.ToString();
+                    string quantity = this.order_quantity.Text;
                     string name = this.dataManager.getProductName(plu);
+                    string supplier_id = supplierList[this.order_Supplier.SelectedIndex].Id;
 
-                    OrderItem newItem = new OrderItem(plu, null, null, quantity, supplier, name);
+                    OrderItem newItem = new OrderItem(plu, null, DateTime.Now.Date.ToString("MM-DD-YYYY"), quantity, supplier, supplier_id, name);
 
                     currentOrderList.Add(newItem);
 
@@ -495,7 +501,7 @@ namespace View
         {
             string plu = order_PLUTextBox.Text;
             this.order_Supplier.Items.Clear();
-            List<SupplierItem> supplierList = dataManager.getSupplierList(plu);
+            supplierList = dataManager.getSupplierList(plu);
             if (supplierList.Count > 0)
             {
                 foreach (SupplierItem item in supplierList)
@@ -517,10 +523,10 @@ namespace View
         /// <param name="e"></param>
         private void order_NextBtn_Click(object sender, EventArgs e)
         {
-            foreach (OrderItem item in currentOrderList)
-            {
-
-            }
+            this.dataManager.updateOrderDatabase(this.currentOrderList);
+            currentOrderList = new List<OrderItem>();
+            order_currentListview.Items.Clear();
+            filledAllOrderListView();
         }
 
     }

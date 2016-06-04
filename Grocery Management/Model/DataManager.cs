@@ -11,7 +11,7 @@ namespace WindowsFormsApplication1.Model
      class DataManager
     {
         enum Database { PLU, Name, Supplier_ID, Supplier_Name, In_Stock, Price, Order_Number,
-                        Date, Quantity};  
+                        Order_Date, Quantity};  
 
         private String connectionString;
         private SqlConnection sqlConnection;
@@ -188,7 +188,7 @@ namespace WindowsFormsApplication1.Model
             try
             {
                 sqlConnection.Open();
-                SqlCommand theCommand = new SqlCommand("SELECT Supply_Order.*, Order_Include.Quantity, Supplier.Supplier_Name, Product.Name, Product.PLU " +
+                SqlCommand theCommand = new SqlCommand("SELECT Supply_Order.*, Order_Include.Quantity, Supplier.*, Product.Name, Product.PLU " +
                                                         "FROM Supply_Order, Order_Include, Supplier, Product " +
                                                         "WHERE Supply_Order.Order_Number = Order_Include.Order_Number " +
                                                         " AND Supplier.Supplier_ID = Order_Include.Supplier_ID " +
@@ -199,9 +199,10 @@ namespace WindowsFormsApplication1.Model
                 {
                     OrderItem item = new OrderItem(theReader[Database.PLU.ToString()].ToString(), 
                                                     theReader[Database.Order_Number.ToString()].ToString(),
-                                                    theReader[Database.Date.ToString()].ToString(),
+                                                    theReader[Database.Order_Date.ToString()].ToString(),
                                                     theReader[Database.Quantity.ToString()].ToString(),
                                                     theReader[Database.Supplier_Name.ToString()].ToString(),
+                                                    theReader[Database.Supplier_ID.ToString()].ToString(),
                                                     theReader[Database.Name.ToString()].ToString());
                     itemList.Add(item);
                 }
@@ -240,6 +241,71 @@ namespace WindowsFormsApplication1.Model
             }
 
             return orderNumber;
+        }
+
+        /// <summary>
+        /// 
+        /// Initial Order number.
+        /// </summary>
+        public void initialOrder()
+        {
+            try
+            {
+                SqlCommand theCommand;
+                sqlConnection.Open();
+
+                //Supply Order
+                theCommand = new SqlCommand("INSERT INTO Supply_Order (Order_Date) VALUES (@Date) ", sqlConnection);
+                theCommand.CommandType = System.Data.CommandType.Text;
+                theCommand.Parameters.AddWithValue("@Date", DateTime.Now);
+
+                theCommand.Connection = sqlConnection;
+                theCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+                sqlConnection.Close();
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Get all changes then update to the database
+        /// </summary>
+        /// <param name="changesList"></param>
+        public void updateOrderDatabase(List<OrderItem> changesList)
+        {
+            initialOrder();
+
+            string orderNumber = this.getLargestOrderNumber();
+
+            foreach (OrderItem item in changesList)
+            {
+                try
+                {
+                    SqlCommand theCommand;
+                    sqlConnection.Open();
+
+                    //Supply Order
+                    theCommand = new SqlCommand("INSERT INTO Order_Include (Order_Number, PLU, Supplier_ID, Quantity) " + 
+                                                 "VALUES (@Order_Number, @PLU, @Supplier_ID, @Quantity)");
+                    theCommand.CommandType = System.Data.CommandType.Text;
+                    theCommand.Parameters.AddWithValue("@Order_Number", orderNumber);
+                    theCommand.Parameters.AddWithValue("@PLU", item.Order_PLU);
+                    theCommand.Parameters.AddWithValue("@Supplier_ID", item.Order_Supplier_ID);
+                    theCommand.Parameters.AddWithValue("@Quantity", item.Order_Quantity);                            
+                    
+                    theCommand.Connection = sqlConnection;
+                    theCommand.ExecuteNonQuery();
+                    sqlConnection.Close();
+                }
+                catch (Exception e)
+                {
+                    sqlConnection.Close();
+                    Console.WriteLine(e.ToString());
+                }
+            }
         }
     }
 }

@@ -31,7 +31,6 @@ namespace View
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage_Order = new System.Windows.Forms.TabPage();
             this.order_LeftPanel = new System.Windows.Forms.Panel();
             this.order_panel = new System.Windows.Forms.Panel();
@@ -77,16 +76,6 @@ namespace View
             this.splitContainer1.SuspendLayout();
             this.tabControl_Inventory.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1072, 565);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Report";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage_Order
             // 
@@ -452,7 +441,6 @@ namespace View
             // 
             this.tabControl_Inventory.Controls.Add(this.tabPage_Inventory);
             this.tabControl_Inventory.Controls.Add(this.tabPage_Order);
-            this.tabControl_Inventory.Controls.Add(this.tabPage1);
             this.tabControl_Inventory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl_Inventory.ItemSize = new System.Drawing.Size(100, 30);
@@ -492,8 +480,6 @@ namespace View
         }
 
         #endregion
-
-        private TabPage tabPage1;
         private TabPage tabPage_Order;
         private Panel order_CenterPanel;
         private Label order_number;

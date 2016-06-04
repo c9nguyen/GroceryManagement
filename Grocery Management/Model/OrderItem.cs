@@ -14,8 +14,10 @@ namespace WindowsFormsApplication1.Model
         private string order_Quantity;
         private string order_SupplierName;
         private string order_Name;
+        private string order_Supplier_ID;
 
-        public OrderItem(string order_PLU, string order_Number, string order_Date, string order_Quantity, string order_SupplierName, string order_Name)
+        public OrderItem(string order_PLU, string order_Number, string order_Date, string order_Quantity, 
+            string order_SupplierName,  string order_Supplier_ID, string order_Name)
         {
             this.Order_PLU = order_PLU;
             this.Order_Number = order_Number;
@@ -23,6 +25,7 @@ namespace WindowsFormsApplication1.Model
             this.Order_Quantity = order_Quantity;
             this.Order_SupplierName = order_SupplierName;
             this.Order_Name = order_Name;
+            this.Order_Supplier_ID = order_Supplier_ID;
         }
 
         public string Order_Number
@@ -100,6 +103,19 @@ namespace WindowsFormsApplication1.Model
             set
             {
                 order_PLU = value;
+            }
+        }
+
+        public string Order_Supplier_ID
+        {
+            get
+            {
+                return order_Supplier_ID;
+            }
+
+            set
+            {
+                order_Supplier_ID = value;
             }
         }
     }
